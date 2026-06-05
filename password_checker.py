@@ -34,13 +34,20 @@ def check_password():
 
     if score <= 2:
         strength = "Weak"
+        color = "red"
     elif score <= 4:
         strength = "Medium"
+        color = "orange"
     else:
         strength = "Strong"
+        color = "green"
 
-    result_label.config(text=f"Password Strength: {strength}")
+    result_label.config(
+        text=f"Password Strength: {strength}",
+        fg=color
+    )
 
+    suggestion_text.config(state="normal")
     suggestion_text.delete("1.0", tk.END)
 
     if suggestions:
@@ -48,16 +55,22 @@ def check_password():
         for item in suggestions:
             suggestion_text.insert(tk.END, f"• {item}\n")
     else:
-        suggestion_text.insert(tk.END, "Excellent! Your password is strong.")
+        suggestion_text.insert(
+            tk.END,
+            "Excellent! Your password is strong."
+        )
+
+    suggestion_text.config(state="disabled")
+
 
 root = tk.Tk()
 root.title("Password Strength Checker")
-root.geometry("550x450")
+root.geometry("600x500")
 
 title = tk.Label(
     root,
     text="Password Strength Checker",
-    font=("Arial", 16, "bold")
+    font=("Arial", 18, "bold")
 )
 title.pack(pady=10)
 
@@ -79,7 +92,7 @@ password_entry.pack(pady=10)
 check_button = tk.Button(
     root,
     text="Check Password",
-    font=("Arial", 12),
+    font=("Arial", 12, "bold"),
     command=check_password
 )
 check_button.pack(pady=10)
@@ -94,8 +107,11 @@ result_label.pack(pady=10)
 suggestion_text = tk.Text(
     root,
     height=10,
-    width=50
+    width=60,
+    font=("Arial", 11)
 )
 suggestion_text.pack(pady=10)
+
+suggestion_text.config(state="disabled")
 
 root.mainloop()
